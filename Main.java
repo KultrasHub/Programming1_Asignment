@@ -10,10 +10,11 @@ public class Main{
         Scanner scanner=new Scanner(System.in);
         //ask for region name and time range
         Data data=new Data();
-
         data.askForDetail(scanner);
+        //data.showDays();
         //summary
-        data.groupingMethod(scanner);
+        data.askForMetric(scanner);
+        data.showTimeMetricGroup();
     }
     //select between continent of location
 
@@ -21,13 +22,16 @@ public class Main{
 class Data{
     private enum RegionType{continent,location};
     //info
-    private RegionType rtype;
+    private RegionType rtype=RegionType.continent;
     private String geometricArea;
     private ArrayList<Date> timeRange=new ArrayList<Date>();
     private TimeGroupController tgc;
     //prevent running if info is empty
     private boolean infoacquired=false;
     private boolean grouped=false;
+    //to check if a date is in a certain range
+    private long smallestDateInMillisecond=0;
+    private long largestDateInMillsecond=0;
     //Assign value for 2 particular dates
     private void SetData(String regionName,int regionType,Date startDate,Date endDate){
         //name
@@ -48,9 +52,14 @@ class Data{
         long dayInMillisecond=24*60*60*1000;
         long startDayInMillisecond=startDate.getTime();
         long endDayInMillisecond=endDate.getTime();  
+        //to determinne if a date is within the given range
+        smallestDateInMillisecond=startDayInMillisecond;
+        largestDateInMillsecond=endDayInMillisecond;
         //loop to find the next or previous days depend on the fact start day is after or before the end day
         if(startDayInMillisecond<endDayInMillisecond)
         {
+            smallestDateInMillisecond=startDayInMillisecond;
+            largestDateInMillsecond=endDayInMillisecond;
             timeRange.add(startDate);
             long runnInMillisecond=startDayInMillisecond;
             while(runnInMillisecond<endDayInMillisecond)
@@ -61,6 +70,8 @@ class Data{
             }
         }
         else{
+            smallestDateInMillisecond= endDayInMillisecond;
+            largestDateInMillsecond=startDayInMillisecond;
             long runnInMillisecond=endDayInMillisecond;
             timeRange.add(endDate);
             while(runnInMillisecond<startDayInMillisecond)
@@ -70,6 +81,7 @@ class Data{
                 timeRange.add(date);
             }
         }
+        //
     }
     //Assign for a range of dates
     private void SetData(String regionName,int regionType,Date rootDate,boolean fromDir, int amount){
@@ -88,15 +100,26 @@ class Data{
             System.out.println("Cant find region Type:"+regionType);
         }
         //time
-        int inbetweenDistance=(fromDir)?1:-1;
+        //timeRange.add(rootDate);
         long dayInMillisecond=24*60*60*1000;
         long rootDayInMillisecond=rootDate.getTime();
-        long runDayInMillisecond=rootDayInMillisecond;
+        //always start at the smallest day
+        //so array list will have a goinng up figure
+        long runDayInMillisecond=(fromDir)?(rootDayInMillisecond-dayInMillisecond):(rootDayInMillisecond-(amount)*dayInMillisecond);
         for(int i=0;i<amount;i++)
         {
-            runDayInMillisecond+=inbetweenDistance*dayInMillisecond;
+            runDayInMillisecond+=dayInMillisecond;
             Date date=new Date(runDayInMillisecond);
             timeRange.add(date);
+            //to determin if a day is within the given range
+            if(i==0)
+            {
+                smallestDateInMillisecond=runDayInMillisecond;
+            }
+            if(i==amount-1)
+            {
+                largestDateInMillsecond=runDayInMillisecond;
+            }
         }
     }
     //acquire information
@@ -245,7 +268,7 @@ class Data{
     //display all days in time range
     public void showDays()
     {
-        System.out.println("--------------------(^◡^ )--------------------");
+        //System.out.println("--------------------(^◡^ )--------------------");
         for(Date d:timeRange)
         {
             System.out.println(d);
@@ -261,12 +284,66 @@ class Data{
         }
         tgc.ShowGroups();
     }
-    //separate days into time group
-    public void groupingMethod(Scanner sc)
+    //display time and metric in group
+    public void showTimeMetricGroup()
+    {
+        if(!grouped)
+        {
+            System.out.println("Groups has not been created! pls run ask for metric first");
+        }
+        tgc.ShowTimeMetricGroup();
+    }
+    //check if a test day is within the inputtimeRange
+    //retrun the index of this in the array
+    private int IsBetweenGivenDays(Date date)
     {
         if(!infoacquired)
         {
-            System.out.println(("pls add info to this data"));
+            System.out.println("Pls run ask fo Detail first to continue!");
+            System.out.println("--------------------( っ- ‸ – c)--------------------");
+            return 0;
+        }
+        if(date.getTime()<=largestDateInMillsecond&&date.getTime()>=smallestDateInMillisecond){
+            //test day is in the given range
+            long offset=date.getTime()-smallestDateInMillisecond;
+            long dayInMillisecond=24*3600*1000;
+            long index=offset/dayInMillisecond;
+            int i =(int)index;
+            return i;
+        }
+        else{
+            return  0;
+        }
+    }
+    //show metric value with days
+    private void DisplayMetric(int[] values,int metric)
+    {
+        String metricName="";
+        if(metric==1)
+        {
+            metricName="New Cases";
+        }
+        if(metric==2)
+        {
+            metricName="New Death";
+        }
+        if(metric==3)
+        {
+            metricName="People vacinated";
+        }
+        System.out.println("Dates and Metric-"+metricName);
+        for(int i=0;i<timeRange.size();i++)
+        {
+            System.out.println(timeRange.get(i)+" - "+values[i]);
+        }
+        System.out.println("--------------------(^◡^ )--------------------");
+    }
+    //separate days into time group
+    public void groupingMethod(Scanner sc,int[] values)
+    {
+        if(!infoacquired)
+        {
+            System.out.println(("pls run askForDetail First"));
             System.out.println("--------------------(^◡^ )--------------------");
             return;
         }
@@ -283,7 +360,7 @@ class Data{
             for(Date d: timeRange)
             {
                 //System.out.println("added day"+d);
-                tgc.AddGroupAtIndex(lastadded, new TimeGroup(d));
+                tgc.AddGroupAtIndex(lastadded, new TimeGroup(d,values[lastadded]));
                 //groups[lastadded]=new TimeGroup(d);
                 lastadded++;
             }
@@ -309,7 +386,7 @@ class Data{
                 TimeGroup timeGroup=new TimeGroup(result);
                 for(int j=0;j<result;j++)
                 {
-                    timeGroup.addDate(timeRange.get(lastaddedDate));
+                    timeGroup.addDate(timeRange.get(lastaddedDate),values[lastaddedDate]);
                     //System.out.println("last added Date: "+lastaddedDate+" "+timeRange.get(lastaddedDate));
                     lastaddedDate++;
                 }
@@ -322,7 +399,7 @@ class Data{
                 TimeGroup timeGroup=new TimeGroup(result+1);
                 for(int j=0;j<result+1;j++)
                 {
-                    timeGroup.addDate(timeRange.get(lastaddedDate));
+                    timeGroup.addDate(timeRange.get(lastaddedDate),values[lastaddedDate]);
                     //System.out.println("last added Date: "+lastaddedDate+" "+timeRange.get(lastaddedDate));
                     lastaddedDate++;
                 }
@@ -365,7 +442,7 @@ class Data{
                     for(int i=0;i<result;i++){
                         TimeGroup timeGroup=new TimeGroup(dateAmount);
                         for(int j=0;j<dateAmount;j++){
-                        timeGroup.addDate(timeRange.get(lastaddedDate));
+                        timeGroup.addDate(timeRange.get(lastaddedDate),values[lastaddedDate]);
                         //System.out.println("last added Date: "+lastaddedDate+" "+timeRange.get(lastaddedDate));
                         lastaddedDate++;
                         }
@@ -379,6 +456,211 @@ class Data{
 
             }
         }
+        System.out.println("--------------------(^◡^ )--------------------");
+    }
+    //ask for a metric
+    //get info from CSV file
+    //will automatically run grouping here
+    public void askForMetric(Scanner sc) throws Exception
+    {
+        if(!infoacquired)
+        {
+            System.out.println("Pls run ask fo Detail first to continue!");
+            System.out.println("--------------------(^◡^ )--------------------");
+            return;
+        }
+        boolean inputAccepted=false;
+        int metric=0;
+        while(!inputAccepted)
+        {
+            System.out.println("Choose a metric: \n 1. Positive Cases \n 2. Deaths \n 3. People vacinated");
+            System.out.printf("Enter the number :");
+            metric=sc.nextInt();
+            if(metric!=1&&metric!=2&&metric!=3)
+            {
+            System.out.println("Invalid Input!,try again");
+            System.out.println("--------------------(^◡^ )--------------------");
+            }
+            else{
+                inputAccepted=true;
+                System.out.println("--------------------(^◡^ )--------------------");
+            }
+        }
+        sc.nextLine();//scanner will start at the new line
+        //contain the values of of all day within the given timerange
+        int[] values=new int[timeRange.size()];
+        Scanner input =new Scanner(new File("covid-data.csv"));
+        // /sc.useDelimiter(",");
+        boolean firstLine=true;//ignore the title line
+        boolean nameCheck=false;//check if there is geometric match any in CSV file
+        boolean dateCheck=false;
+        //loading bar
+        int loadingProcess=0;
+        while(input.hasNextLine()){
+            if(firstLine){
+                firstLine=false;
+                //System.out.println("First Line Ignored");
+                continue;
+            }
+            if(!firstLine){
+                loadingProcess++;
+                if(loadingProcess%2198==0)
+                {
+                    System.out.print("=");
+                }
+                String line=input.nextLine();
+                //System.out.println("nextline is:"+line);
+                //System.out.println("lines: "+line);
+                String[] components=line.split(",");
+                //compare geomatric name with the csv
+                SimpleDateFormat formatter=new SimpleDateFormat("MM/dd/yyyy"); 
+                if(rtype==RegionType.continent){
+                    //extract info
+                    //System.out.println("Continent Check");
+                    if(components[1].equals(geometricArea))
+                    {
+                        if(!nameCheck)
+                        {
+                            nameCheck=true;
+                        }
+                        String testDayInString=components[3];
+                        try{
+                            Date testDate=formatter.parse(testDayInString);
+                            //compare days
+                            int index=IsBetweenGivenDays(testDate);
+                            if(index!=0)
+                            {
+                                if(dateCheck==false)
+                                {
+                                    dateCheck=true;
+                                }
+                                //adding metricvalue to values array
+                                //new case and new death
+                                if(metric==1)
+                                {
+                                    String newCase=components[4];
+                                    if(!newCase.equals(""))
+                                    {
+                                    int caseInInnt=Integer.parseInt(newCase);
+                                    values[index]+=caseInInnt;
+                                    }
+                                }
+                                else if(metric==2)
+                                {
+                                    String newCase=components[5];
+                                    if(!newCase.equals(""))
+                                    {
+                                    int caseInInnt=Integer.parseInt(newCase);
+                                    values[index]+=caseInInnt;
+                                    }
+                                }
+                                //people vacinated
+                                else if(metric ==3)
+                                {
+                                    String newCase=components[6];
+                                    if(!newCase.equals(""))
+                                    {
+                                        int caseInInnt=Integer.parseInt(newCase);
+                                        values[index]+=caseInInnt;
+                                    }
+                                    //else caseInInt=0 - no need to add
+                                }
+                            }
+                            else{
+                                //System.out.println("invaliddates: "+testDate);
+                            }
+                        }
+                        catch(ParseException e)
+                        {
+                            e.printStackTrace();    
+                            System.out.println("CSV may not be inn the correct format or incorrect column read");
+                        }
+                    }
+                    // else{
+                    //     System.out.println("not match"+components[1]+"geometric: "+geometricArea);
+                    // }
+                }
+                else if(rtype==RegionType.location){
+                    if(components[2].equals(geometricArea))
+                    {
+                        if(!nameCheck)
+                        {
+                            nameCheck=true;
+                        }
+                        String testDayInString=components[3];
+                        try{
+                            Date testDate=formatter.parse(testDayInString);
+                            //compare days
+                            int index=IsBetweenGivenDays(testDate);
+                            if(index!=0)
+                            {
+                                if(dateCheck==false)
+                                {
+                                    dateCheck=true;
+                                }
+                                //adding metricvalue to values array
+                                //new case and new death
+                                if(metric==1)
+                                {
+                                    String newCase=components[4];
+                                    if(!newCase.equals(""))
+                                    {
+                                    int caseInInnt=Integer.parseInt(newCase);
+                                    values[index]+=caseInInnt;
+                                    }
+                                }
+                                else if(metric==2)
+                                {
+                                    String newCase=components[5];
+                                    if(!newCase.equals(""))
+                                    {
+                                    int caseInInnt=Integer.parseInt(newCase);
+                                    values[index]+=caseInInnt;
+                                    }
+                                }
+                                //people vacinated
+                                else if(metric ==3)
+                                {
+                                    String newCase=components[6];
+                                    if(!newCase.equals(""))
+                                    {
+                                    int caseInInnt=Integer.parseInt(newCase);
+                                    values[index]+=caseInInnt;
+                                    }
+                                }
+                            }
+                        }
+                        catch(ParseException e)
+                        {
+                            e.printStackTrace();    
+                            System.out.println("CSV may not be inn the correct format or incorrect column read");
+                        }
+                    }
+                }
+                else{
+                    //not likely to occur as rtype has a default of regiontype.continent
+                    System.out.println("Region Type missing");
+                    System.out.println("Pls run ask for detail again");
+                    System.out.println("--------------------( っ- ‸ – c)--------------------");
+                }
+            }
+        }
+        System.out.println();
+        //System.out.println("-------------------COMPLETE-------------------");
+        if(!nameCheck)
+        {
+            System.out.println("your geometric input was not correct");
+           
+        }
+        if(!dateCheck)
+        {
+            System.out.println("your timerange input was not included in our data!, sorry for this inconvenience!");
+            System.out.println("--------------------( っ- ‸ – c)--------------------");
+        }
+        //show metric value
+        //DisplayMetric(values, metric);
+        groupingMethod(sc, values);
+        input.close();
     }
 }
 //contain all an array of time group
@@ -402,30 +684,47 @@ class TimeGroupController{
         {
             if(g!=null)
             {
-            g.DisplayDates();
+                g.DisplayDates();
+            }
+        }
+    }
+    public void ShowTimeMetricGroup()
+    {
+        System.out.println(groups.length+" groups");
+        for(TimeGroup g:groups)
+        {
+            if(g!=null)
+            {
+                g.DisplayMetric();
             }
         }
     }
 }
 class TimeGroup{
     private Date[] dates;
-    int lastAdded;//the index of the lasted added date
+    private int[] metricValue;
+    private int totalMetricValue;
+    private int lastAdded;//the index of the lasted added date
     //constructor
-    TimeGroup(Date date)
+    TimeGroup(Date date,int v)
     {
         dates=new Date[1];
+        metricValue=new int[1];
         dates[0]=date;
+        metricValue[0]=v;
     }
     TimeGroup(int amount)
     {
         dates=new Date[amount];
+        metricValue=new int[amount];
     }
     //add new date into array
-    public void addDate(Date date)
+    public void addDate(Date date,int v)
     {
         if(lastAdded<dates.length)
         {
             dates[lastAdded]=date;
+            metricValue[lastAdded]=v;
             lastAdded++;
         }
         else{
@@ -439,6 +738,16 @@ class TimeGroup{
         for(int i=0;i<dates.length;i++)
         {
             System.out.println(dates[i]);
+        }
+        System.out.println("--------------------(^◡^ )--------------------");
+    }
+    //display all date and metric value
+    public void DisplayMetric()
+    {
+        System.out.println("dates and metric in the group: "+dates.length);
+        for(int i=0;i<dates.length;i++)
+        {
+            System.out.println(dates[i]+" Metric Value: "+metricValue[i]);
         }
         System.out.println("--------------------(^◡^ )--------------------");
     }
