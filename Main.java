@@ -301,7 +301,7 @@ class Data{
         {
             System.out.println("Pls run ask fo Detail first to continue!");
             System.out.println("--------------------( っ- ‸ – c)--------------------");
-            return 0;
+            return -1;
         }
         if(date.getTime()<=largestDateInMillsecond&&date.getTime()>=smallestDateInMillisecond){
             //test day is in the given range
@@ -312,10 +312,11 @@ class Data{
             return i;
         }
         else{
-            return  0;
+            return  -1;
         }
     }
     //show metric value with days
+    //used to test value 
     private void DisplayMetric(int[] values,int metric)
     {
         String metricName="";
@@ -339,7 +340,7 @@ class Data{
         System.out.println("--------------------(^◡^ )--------------------");
     }
     //separate days into time group
-    public void groupingMethod(Scanner sc,int[] values)
+    public void groupingMethod(Scanner sc,int[] values,int metricType)
     {
         if(!infoacquired)
         {
@@ -360,7 +361,7 @@ class Data{
             for(Date d: timeRange)
             {
                 //System.out.println("added day"+d);
-                tgc.AddGroupAtIndex(lastadded, new TimeGroup(d,values[lastadded]));
+                tgc.AddGroupAtIndex(lastadded, new TimeGroup(d,values[lastadded],metricType));
                 //groups[lastadded]=new TimeGroup(d);
                 lastadded++;
             }
@@ -383,7 +384,7 @@ class Data{
             int lastadded=0;//the last group which has been filled
             int lastaddedDate=0;//the last days which has been filled
             for(int i=0;i<missing;i++){
-                TimeGroup timeGroup=new TimeGroup(result);
+                TimeGroup timeGroup=new TimeGroup(result,metricType);
                 for(int j=0;j<result;j++)
                 {
                     timeGroup.addDate(timeRange.get(lastaddedDate),values[lastaddedDate]);
@@ -396,7 +397,7 @@ class Data{
                 //new group
             }
             for(int i=0;i<remain;i++){
-                TimeGroup timeGroup=new TimeGroup(result+1);
+                TimeGroup timeGroup=new TimeGroup(result+1,metricType);
                 for(int j=0;j<result+1;j++)
                 {
                     timeGroup.addDate(timeRange.get(lastaddedDate),values[lastaddedDate]);
@@ -440,7 +441,7 @@ class Data{
                     //result is the amount of group
                     //date AMount is equally the amount of date each group
                     for(int i=0;i<result;i++){
-                        TimeGroup timeGroup=new TimeGroup(dateAmount);
+                        TimeGroup timeGroup=new TimeGroup(dateAmount,metricType);
                         for(int j=0;j<dateAmount;j++){
                         timeGroup.addDate(timeRange.get(lastaddedDate),values[lastaddedDate]);
                         //System.out.println("last added Date: "+lastaddedDate+" "+timeRange.get(lastaddedDate));
@@ -498,6 +499,7 @@ class Data{
         int loadingProcess=0;
         while(input.hasNextLine()){
             if(firstLine){
+                input.nextLine();
                 firstLine=false;
                 //System.out.println("First Line Ignored");
                 continue;
@@ -528,8 +530,9 @@ class Data{
                             Date testDate=formatter.parse(testDayInString);
                             //compare days
                             int index=IsBetweenGivenDays(testDate);
-                            if(index!=0)
+                            if(index!=-1)
                             {
+                                
                                 if(dateCheck==false)
                                 {
                                     dateCheck=true;
@@ -592,8 +595,9 @@ class Data{
                             Date testDate=formatter.parse(testDayInString);
                             //compare days
                             int index=IsBetweenGivenDays(testDate);
-                            if(index!=0)
+                            if(index!=-1)
                             {
+                                System.out.println("Date in check:"+ testDate);
                                 if(dateCheck==false)
                                 {
                                     dateCheck=true;
@@ -659,7 +663,7 @@ class Data{
         }
         //show metric value
         //DisplayMetric(values, metric);
-        groupingMethod(sc, values);
+        groupingMethod(sc, values,metric);
         input.close();
     }
 }
@@ -704,19 +708,22 @@ class TimeGroup{
     private Date[] dates;
     private int[] metricValue;
     private int totalMetricValue;
+    private int metricType=0;
     private int lastAdded;//the index of the lasted added date
     //constructor
-    TimeGroup(Date date,int v)
+    TimeGroup(Date date,int v,int type)
     {
         dates=new Date[1];
         metricValue=new int[1];
         dates[0]=date;
         metricValue[0]=v;
+        metricType=type;
     }
-    TimeGroup(int amount)
+    TimeGroup(int amount,int type)
     {
         dates=new Date[amount];
         metricValue=new int[amount];
+        metricType=type;
     }
     //add new date into array
     public void addDate(Date date,int v)
