@@ -758,4 +758,18 @@ class TimeGroup{
         }
         System.out.println("--------------------(^◡^ )--------------------");
     }
+    public void CalculateNewTotal() {
+        if ( metricType == 3) {
+            int new_vaccinated;
+            for (int i = 0; i < metricValue.length; i++) {
+                new_vaccinated = metricValue[i+1] - metricValue[i];
+                totalMetricValue = new_vaccinated;
+            }
+        }
+        else {
+            for (int i = 0; i < metricValue.length; i++) {
+                totalMetricValue += metricValue[i];
+            }
+        }
+    }
 }
