@@ -348,6 +348,7 @@ class Data{
             System.out.println("--------------------(^◡^ )--------------------");
             return;
         }
+        System.out.println("There are"+timeRange.size()+"dates, how do you to group?");
         System.out.println("Choose a grouping method: \n 1. No Grouping \n 2. Number of groups \n 3. Number of days");
         System.out.printf("Enter the number :");
         int grouping=sc.nextInt();
@@ -597,7 +598,7 @@ class Data{
                             int index=IsBetweenGivenDays(testDate);
                             if(index!=-1)
                             {
-                                System.out.println("Date in check:"+ testDate);
+                                //System.out.println("Date in check:"+ testDate);
                                 if(dateCheck==false)
                                 {
                                     dateCheck=true;
@@ -763,16 +764,26 @@ class TimeGroup{
     }
     public void CalculateNewTotal() {
         if ( metricType == 3) {
-            int new_vaccinated;
+            //a2-a1+a3-a2+...+a(n-1)-a(n)=a(n-1)-a1;
+            //so we find the largest number in the array and the smallest
+            //[0] and [length-1] may nbnot correctsince their value can be =0
+            int largest=0;
+            int smallest=Integer.MAX_VALUE;
             for (int i = 0; i < metricValue.length; i++) {
-                if (metricValue[i+1] == 0) {
-                    new_vaccinated = metricValue[i+1] + metricValue[i];
-                    totalMetricValue = new_vaccinated;
-                } else {
-                    new_vaccinated = metricValue[i+1] - metricValue[i];
-                    totalMetricValue = new_vaccinated;
+                if(metricValue[i]!=0)
+                {
+                    if(smallest>metricValue[i])
+                    {
+                        smallest=metricValue[i];
+                    }
+                    if(largest<metricValue[i])
+                    {
+                        largest=metricValue[i];
+                    }
                 }
-            }
+            }                                
+            //add the last value
+            totalMetricValue=largest-smallest;
         }
         else {
             for (int i = 0; i < metricValue.length; i++) {
@@ -782,7 +793,7 @@ class TimeGroup{
     }
 
     public void displayTotalofNewCase(){
-        System.out.println("Total is: %d"+ totalMetricValue);
+        System.out.println("Total is: "+ totalMetricValue);
         System.out.println("--------------------(^◡^ )--------------------");
     }
 }
