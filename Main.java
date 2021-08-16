@@ -782,6 +782,7 @@ class TimeGroup{
     }
 
     public void displayTotalofNewCase(){
-        System.out.printf("\nTotal is: %d", totalMetricValue);
+        System.out.println("Total is: %d"+ totalMetricValue);
+        System.out.println("--------------------(^◡^ )--------------------");
     }
 }
