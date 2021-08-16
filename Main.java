@@ -689,6 +689,7 @@ class TimeGroupController{
             if(g!=null)
             {
                 g.DisplayDates();
+           
             }
         }
     }
@@ -700,6 +701,8 @@ class TimeGroupController{
             if(g!=null)
             {
                 g.DisplayMetric();
+                g.CalculateNewTotal();
+                g.displayTotalofNewCase();
             }
         }
     }
@@ -757,5 +760,28 @@ class TimeGroup{
             System.out.println(dates[i]+" Metric Value: "+metricValue[i]);
         }
         System.out.println("--------------------(^◡^ )--------------------");
+    }
+    public void CalculateNewTotal() {
+        if ( metricType == 3) {
+            int new_vaccinated;
+            for (int i = 0; i < metricValue.length; i++) {
+                if (metricValue[i+1] == 0) {
+                    new_vaccinated = metricValue[i+1] + metricValue[i];
+                    totalMetricValue = new_vaccinated;
+                } else {
+                    new_vaccinated = metricValue[i+1] - metricValue[i];
+                    totalMetricValue = new_vaccinated;
+                }
+            }
+        }
+        else {
+            for (int i = 0; i < metricValue.length; i++) {
+                totalMetricValue += metricValue[i];
+            }
+        }
+    }
+
+    public void displayTotalofNewCase(){
+        System.out.printf("\nTotal is: %d", totalMetricValue);
     }
 }
