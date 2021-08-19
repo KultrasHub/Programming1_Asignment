@@ -1,6 +1,6 @@
 import java.util.Date;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;  
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.*;
@@ -15,6 +15,7 @@ public class Main{
         //summary
         data.askForMetric(scanner);
         data.showTimeMetricGroup();
+        data.displayTotalValue();
     }
     //select between continent of location
 
@@ -51,7 +52,7 @@ class Data{
         //time
         long dayInMillisecond=24*60*60*1000;
         long startDayInMillisecond=startDate.getTime();
-        long endDayInMillisecond=endDate.getTime();  
+        long endDayInMillisecond=endDate.getTime();
         //to determinne if a date is within the given range
         smallestDateInMillisecond=startDayInMillisecond;
         largestDateInMillsecond=endDayInMillisecond;
@@ -141,7 +142,7 @@ class Data{
 
         return 0;//may not run
     }
-    
+
     public void askForDetail(Scanner sc)throws Exception{
         //region
         System.out.print(("Enter the area name:"));
@@ -163,28 +164,28 @@ class Data{
             System.out.print("Enter the number: ");
             int chosenTime=sc.nextInt();
             sc.nextLine();//start scanner at new line
-            SimpleDateFormat formatter=new SimpleDateFormat("MM/dd/yyyy");  
+            SimpleDateFormat formatter=new SimpleDateFormat("MM/dd/yyyy");
             if(chosenTime==1)
             {
                 //input dates
                 System.out.println("Enter the start date(MM/dd/yyyy):");
                 String date1=sc.nextLine();
-                System.out.println("Enter the end date(MM/dd/yyyy):"); 
+                System.out.println("Enter the end date(MM/dd/yyyy):");
                 String date2=sc.nextLine();
                 //converting and create Data
                 try{
-                Date startDate=formatter.parse(date1);
-                Date endDate=formatter.parse(date2);
-                //System.out.println("StartDate is: "+startDate+", endDate is: "+endDate);
-                System.out.println("--------------------(^◡^ )--------------------");
-                SetData(areaName, regionType, startDate, endDate);
-                //Data data=new Data(areaName,regionType,startDate,endDate);
-                infoacquired=true;
-                return;
-                //end loop
+                    Date startDate=formatter.parse(date1);
+                    Date endDate=formatter.parse(date2);
+                    //System.out.println("StartDate is: "+startDate+", endDate is: "+endDate);
+                    System.out.println("--------------------(^◡^ )--------------------");
+                    SetData(areaName, regionType, startDate, endDate);
+                    //Data data=new Data(areaName,regionType,startDate,endDate);
+                    infoacquired=true;
+                    return;
+                    //end loop
                 }
                 catch(ParseException e){
-                    e.printStackTrace();    
+                    e.printStackTrace();
                     System.out.println("day inputs in wrong format");
                 }
                 //restart
@@ -196,7 +197,7 @@ class Data{
                 String date1=sc.nextLine();
                 try{
                     Date startDate=formatter.parse(date1);
-                    System.out.println("Enter a period(ex 3 days, 9 weeks)"); 
+                    System.out.println("Enter a period(ex 3 days, 9 weeks)");
                     String period=sc.nextLine();
                     //separate by space
                     String[] parts=period.split(" ");
@@ -253,14 +254,14 @@ class Data{
                 }
                 //error when converting string to date
                 catch(ParseException e){
-                    e.printStackTrace();    
+                    e.printStackTrace();
                     System.out.println("day inputs in wrong format");
                 }
             }
             else{
-            //invalid input
-            //restart the loop
-                }
+                //invalid input
+                //restart the loop
+            }
         }
         infoacquired=false;
         return;
@@ -293,6 +294,11 @@ class Data{
         }
         tgc.ShowTimeMetricGroup();
     }
+
+    public void displayTotalValue() {
+        tgc.CalculateUpto();
+        tgc.displayTotalUpto();
+    }
     //check if a test day is within the inputtimeRange
     //retrun the index of this in the array
     private int IsBetweenGivenDays(Date date)
@@ -316,7 +322,7 @@ class Data{
         }
     }
     //show metric value with days
-    //used to test value 
+    //used to test value
     private void DisplayMetric(int[] values,int metric)
     {
         String metricName="";
@@ -428,12 +434,12 @@ class Data{
                     //restart
                 }
                 else if(total%dateAmount!=0){
-                
+
                     System.out.println("SYSTEM FUNCTIONAL, YOUR INPUT TERRIBLE!");
                     System.out.println("pls try again");
                     System.out.println("pls Enter a number that is divisible by "+total);
                     System.out.println("--------------------(^◡^ )--------------------");
-                }  
+                }
                 else{
                     int lastadded=0;
                     int lastaddedDate=0;
@@ -444,9 +450,9 @@ class Data{
                     for(int i=0;i<result;i++){
                         TimeGroup timeGroup=new TimeGroup(dateAmount,metricType);
                         for(int j=0;j<dateAmount;j++){
-                        timeGroup.addDate(timeRange.get(lastaddedDate),values[lastaddedDate]);
-                        //System.out.println("last added Date: "+lastaddedDate+" "+timeRange.get(lastaddedDate));
-                        lastaddedDate++;
+                            timeGroup.addDate(timeRange.get(lastaddedDate),values[lastaddedDate]);
+                            //System.out.println("last added Date: "+lastaddedDate+" "+timeRange.get(lastaddedDate));
+                            lastaddedDate++;
                         }
                         tgc.AddGroupAtIndex(lastadded, timeGroup);
                         //groups[lastadded]=timeGroup;
@@ -480,8 +486,8 @@ class Data{
             metric=sc.nextInt();
             if(metric!=1&&metric!=2&&metric!=3)
             {
-            System.out.println("Invalid Input!,try again");
-            System.out.println("--------------------(^◡^ )--------------------");
+                System.out.println("Invalid Input!,try again");
+                System.out.println("--------------------(^◡^ )--------------------");
             }
             else{
                 inputAccepted=true;
@@ -516,7 +522,7 @@ class Data{
                 //System.out.println("lines: "+line);
                 String[] components=line.split(",");
                 //compare geomatric name with the csv
-                SimpleDateFormat formatter=new SimpleDateFormat("MM/dd/yyyy"); 
+                SimpleDateFormat formatter=new SimpleDateFormat("MM/dd/yyyy");
                 if(rtype==RegionType.continent){
                     //extract info
                     //System.out.println("Continent Check");
@@ -533,7 +539,7 @@ class Data{
                             int index=IsBetweenGivenDays(testDate);
                             if(index!=-1)
                             {
-                                
+
                                 if(dateCheck==false)
                                 {
                                     dateCheck=true;
@@ -545,8 +551,8 @@ class Data{
                                     String newCase=components[4];
                                     if(!newCase.equals(""))
                                     {
-                                    int caseInInnt=Integer.parseInt(newCase);
-                                    values[index]+=caseInInnt;
+                                        int caseInInnt=Integer.parseInt(newCase);
+                                        values[index]+=caseInInnt;
                                     }
                                 }
                                 else if(metric==2)
@@ -554,8 +560,8 @@ class Data{
                                     String newCase=components[5];
                                     if(!newCase.equals(""))
                                     {
-                                    int caseInInnt=Integer.parseInt(newCase);
-                                    values[index]+=caseInInnt;
+                                        int caseInInnt=Integer.parseInt(newCase);
+                                        values[index]+=caseInInnt;
                                     }
                                 }
                                 //people vacinated
@@ -576,7 +582,7 @@ class Data{
                         }
                         catch(ParseException e)
                         {
-                            e.printStackTrace();    
+                            e.printStackTrace();
                             System.out.println("CSV may not be inn the correct format or incorrect column read");
                         }
                     }
@@ -610,8 +616,8 @@ class Data{
                                     String newCase=components[4];
                                     if(!newCase.equals(""))
                                     {
-                                    int caseInInnt=Integer.parseInt(newCase);
-                                    values[index]+=caseInInnt;
+                                        int caseInInnt=Integer.parseInt(newCase);
+                                        values[index]+=caseInInnt;
                                     }
                                 }
                                 else if(metric==2)
@@ -619,8 +625,8 @@ class Data{
                                     String newCase=components[5];
                                     if(!newCase.equals(""))
                                     {
-                                    int caseInInnt=Integer.parseInt(newCase);
-                                    values[index]+=caseInInnt;
+                                        int caseInInnt=Integer.parseInt(newCase);
+                                        values[index]+=caseInInnt;
                                     }
                                 }
                                 //people vacinated
@@ -629,15 +635,15 @@ class Data{
                                     String newCase=components[6];
                                     if(!newCase.equals(""))
                                     {
-                                    int caseInInnt=Integer.parseInt(newCase);
-                                    values[index]+=caseInInnt;
+                                        int caseInInnt=Integer.parseInt(newCase);
+                                        values[index]+=caseInInnt;
                                     }
                                 }
                             }
                         }
                         catch(ParseException e)
                         {
-                            e.printStackTrace();    
+                            e.printStackTrace();
                             System.out.println("CSV may not be inn the correct format or incorrect column read");
                         }
                     }
@@ -655,7 +661,7 @@ class Data{
         if(!nameCheck)
         {
             System.out.println("your geometric input was not correct");
-           
+
         }
         if(!dateCheck)
         {
@@ -673,6 +679,7 @@ class Data{
 class TimeGroupController{
 
     private TimeGroup[] groups;
+    private int totalupto;
     //init group array
     public void SetGroupAmount(int amount){
         groups=new TimeGroup[amount];
@@ -690,7 +697,7 @@ class TimeGroupController{
             if(g!=null)
             {
                 g.DisplayDates();
-           
+
             }
         }
     }
@@ -706,6 +713,17 @@ class TimeGroupController{
                 g.displayTotalofNewCase();
             }
         }
+    }
+
+    public void CalculateUpto() {
+        for(TimeGroup g: groups) {
+            totalupto += g.getTotalMetricValue();
+        }
+    }
+
+    public void displayTotalUpto(){
+        System.out.println("Total is: "+ totalupto);
+        System.out.println("--------------------(^◡^ )--------------------");
     }
 }
 class TimeGroup{
@@ -740,7 +758,7 @@ class TimeGroup{
         }
         else{
             System.out.println("time group is at max- System error");
-        }  
+        }
     }
     //display all days in this group
     public void DisplayDates()
@@ -781,7 +799,7 @@ class TimeGroup{
                         largest=metricValue[i];
                     }
                 }
-            }                                
+            }
             //add the last value
             totalMetricValue=largest-smallest;
         }
@@ -795,5 +813,16 @@ class TimeGroup{
     public void displayTotalofNewCase(){
         System.out.println("Total is: "+ totalMetricValue);
         System.out.println("--------------------(^◡^ )--------------------");
+    }
+
+    public int getTotalMetricValue() {
+        return totalMetricValue;
+    }
+
+    public Date getFirstDate() {
+        return dates[0];
+    }
+    public Date getFinalDate() {
+        return dates[dates.length-1];
     }
 }
