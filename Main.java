@@ -14,8 +14,9 @@ public class Main{
         //data.showDays();
         //summary
         data.askForMetric(scanner);
+        data.askForCalculateType();
         data.showTimeMetricGroup();
-        data.displayTotalValue();
+
     }
     //select between continent of location
 
@@ -142,6 +143,25 @@ class Data{
 
         return 0;//may not run
     }
+
+    public void askForCalculateType(){
+        System.out.println("Select calculate type: \n1. Calculate total in a group \n2. Calculate total up to date");
+        Scanner sc = new Scanner(System.in);
+        int type = sc.nextInt();
+        if (type == 1) {
+            tgc.displayNewTotalInGroup();
+        }
+        if (type == 2) {
+            tgc.CalculateUpto();
+            tgc.displayTotalUpto();
+
+
+//            System.out.println("Total is: "+ tgc.getTotalupto());
+//            System.out.println("--------------------(^◡^ )--------------------");
+        }
+    }
+
+
 
     public void askForDetail(Scanner sc)throws Exception{
         //region
@@ -295,10 +315,10 @@ class Data{
         tgc.ShowTimeMetricGroup();
     }
 
-    public void displayTotalValue() {
-        tgc.CalculateUpto();
-        tgc.displayTotalUpto();
-    }
+//    public void displayTotalValue() {
+//        tgc.CalculateUpto();
+//        tgc.displayTotalUpto();
+//    }
     //check if a test day is within the inputtimeRange
     //retrun the index of this in the array
     private int IsBetweenGivenDays(Date date)
@@ -497,7 +517,7 @@ class Data{
         sc.nextLine();//scanner will start at the new line
         //contain the values of of all day within the given timerange
         int[] values=new int[timeRange.size()];
-        Scanner input =new Scanner(new File("covid-data.csv"));
+        Scanner input =new Scanner(new File("C:/Users/Admin/IdeaProjects/week1/src/Programming1_Asignment-main/covid-data.csv"));
         // /sc.useDelimiter(",");
         boolean firstLine=true;//ignore the title line
         boolean nameCheck=false;//check if there is geometric match any in CSV file
@@ -709,6 +729,15 @@ class TimeGroupController{
             if(g!=null)
             {
                 g.DisplayMetric();
+//                g.CalculateNewTotal();
+//                g.displayTotalofNewCase();
+            }
+        }
+    }
+
+    public void displayNewTotalInGroup(){
+        for(TimeGroup g: groups) {
+            if (g!= null){
                 g.CalculateNewTotal();
                 g.displayTotalofNewCase();
             }
@@ -724,6 +753,10 @@ class TimeGroupController{
     public void displayTotalUpto(){
         System.out.println("Total is: "+ totalupto);
         System.out.println("--------------------(^◡^ )--------------------");
+    }
+
+    public int getTotalupto() {
+        return totalupto;
     }
 }
 class TimeGroup{
