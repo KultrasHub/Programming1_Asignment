@@ -781,7 +781,8 @@ class TimeGroup{
                         largest=metricValue[i];
                     }
                 }
-            }                                
+            }        
+                                    
             //add the last value
             totalMetricValue=largest-smallest;
         }
