@@ -800,6 +800,11 @@ class TimeGroup{
                     }
                 }
             }
+            //System.out.println("smallest:"+smallest+"largest:"+largest);
+            if(smallest==Integer.MAX_VALUE||smallest==largest)
+            {
+                smallest=0;
+            }
             //add the last value
             totalMetricValue=largest-smallest;
         }
