@@ -16,6 +16,7 @@ public class Main{
         data.askForMetric(scanner);
         data.askForCalculateType();
         data.showTimeMetricGroup();
+        // data.displayUptoValue();
 
     }
     //select between continent of location
@@ -152,13 +153,15 @@ class Data{
             tgc.displayNewTotalInGroup();
         }
         if (type == 2) {
-            tgc.CalculateUpto();
-            tgc.displayTotalUpto();
+//            tgc.CalculateUpto();
+//            tgc.displayTotalUpto();
+            displayUptoValue();
 
-
-//            System.out.println("Total is: "+ tgc.getTotalupto());
-//            System.out.println("--------------------(^◡^ )--------------------");
         }
+    }
+    public void displayUptoValue(){
+        tgc.CalculateUpto();
+        tgc.displayTotalUpto();
     }
 
 
@@ -314,11 +317,6 @@ class Data{
         }
         tgc.ShowTimeMetricGroup();
     }
-
-//    public void displayTotalValue() {
-//        tgc.CalculateUpto();
-//        tgc.displayTotalUpto();
-//    }
     //check if a test day is within the inputtimeRange
     //retrun the index of this in the array
     private int IsBetweenGivenDays(Date date)
@@ -754,10 +752,6 @@ class TimeGroupController{
         System.out.println("Total is: "+ totalupto);
         System.out.println("--------------------(^◡^ )--------------------");
     }
-
-    public int getTotalupto() {
-        return totalupto;
-    }
 }
 class TimeGroup{
     private Date[] dates;
@@ -813,7 +807,7 @@ class TimeGroup{
         }
         System.out.println("--------------------(^◡^ )--------------------");
     }
-    public void CalculateNewTotal() {
+    public int CalculateNewTotal() {
         if ( metricType == 3) {
             //a2-a1+a3-a2+...+a(n-1)-a(n)=a(n-1)-a1;
             //so we find the largest number in the array and the smallest
@@ -846,6 +840,7 @@ class TimeGroup{
                 totalMetricValue += metricValue[i];
             }
         }
+        return totalMetricValue;
     }
 
     public void displayTotalofNewCase(){
