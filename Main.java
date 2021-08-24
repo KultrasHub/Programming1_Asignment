@@ -1,3 +1,4 @@
+import java.sql.Time;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -515,7 +516,7 @@ class Data{
         sc.nextLine();//scanner will start at the new line
         //contain the values of of all day within the given timerange
         int[] values=new int[timeRange.size()];
-        Scanner input =new Scanner(new File("covid-data.csv"));
+        Scanner input =new Scanner(new File("C:/Users/Admin/IdeaProjects/week1/src/Programming1_Asignment-main/covid-data.csv"));
         // /sc.useDelimiter(",");
         boolean firstLine=true;//ignore the title line
         boolean nameCheck=false;//check if there is geometric match any in CSV file
@@ -733,13 +734,41 @@ class TimeGroupController{
         }
     }
 
-    public void displayNewTotalInGroup(){
-        for(TimeGroup g: groups) {
+    public void displayNewTotalInGroup() {
+        int previousTotal = 0; int followingTotal = 0;
+        /*for(TimeGroup g: groups) {
             if (g!= null){
-                g.CalculateNewTotal();
-                g.displayTotalofNewCase();
+                if(g.getMetricType() == 3){
+                    int newTotal = g.CalculateNewTotal();
+                    if(newTotal != 0){
+                        previousTotal = newTotal;
+                    }
+                }
+
             }
         }
+         */
+        for (int i = 0; i < groups.length; i++) {
+            TimeGroup g = groups[i];
+            if (g != null) {
+                if (g.getMetricType() == 3) {
+                    int newTotal = g.CalculateNewTotal();
+                    System.out.println(newTotal);
+                    if (newTotal != 0) {
+                        if (followingTotal != 0) {
+                            previousTotal = followingTotal;
+                        }
+                        followingTotal = newTotal;
+                        if(previousTotal == 0)
+                            System.out.println("New Total: " + (followingTotal - previousTotal));
+                    } else System.out.println("New Total: " + newTotal);
+                } else {
+                    g.CalculateNewTotal();
+                    g.displayTotalofNewCase();
+                }
+            }
+        }
+
     }
 
     public void CalculateUpto() {
@@ -774,6 +803,11 @@ class TimeGroup{
         metricValue=new int[amount];
         metricType=type;
     }
+
+    public int getMetricType() {
+        return metricType;
+    }
+
     //add new date into array
     public void addDate(Date date,int v)
     {
