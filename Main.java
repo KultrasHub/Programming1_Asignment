@@ -1,4 +1,3 @@
-import java.sql.Time;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -516,13 +515,16 @@ class Data{
         sc.nextLine();//scanner will start at the new line
         //contain the values of of all day within the given timerange
         int[] values=new int[timeRange.size()];
-        Scanner input =new Scanner(new File("C:/Users/Admin/IdeaProjects/week1/src/Programming1_Asignment-main/covid-data.csv"));
+        Scanner input =new Scanner(new File("covid-data.csv"));
         // /sc.useDelimiter(",");
         boolean firstLine=true;//ignore the title line
         boolean nameCheck=false;//check if there is geometric match any in CSV file
         boolean dateCheck=false;
         //loading bar
         int loadingProcess=0;
+        //"" in vaccinated is converted to previous Value
+        int previousValue=0;
+        String previousLocation="";//reset previous value when location change;
         while(input.hasNextLine()){
             if(firstLine){
                 input.nextLine();
@@ -550,6 +552,11 @@ class Data{
                         if(!nameCheck)
                         {
                             nameCheck=true;
+                        }
+                        if(!previousLocation.equals(components[2]))
+                        {
+                            previousValue=0;
+                            previousLocation=components[2];
                         }
                         String testDayInString=components[3];
                         try{
@@ -591,12 +598,24 @@ class Data{
                                     {
                                         int caseInInnt=Integer.parseInt(newCase);
                                         values[index]+=caseInInnt;
+                                        previousValue=caseInInnt;
+                                    }
+                                    else{
+                                        values[index]+=previousValue;
                                     }
                                     //else caseInInt=0 - no need to add
                                 }
                             }
                             else{
-                                //System.out.println("invaliddates: "+testDate);
+                                if(metric==3)
+                                {
+                                    String newCase=components[6];
+                                    if(!newCase.equals(""))
+                                    {
+                                        int caseInInnt=Integer.parseInt(newCase);
+                                        previousValue=caseInInnt;
+                                    }
+                                }
                             }
                         }
                         catch(ParseException e)
@@ -656,6 +675,21 @@ class Data{
                                     {
                                         int caseInInnt=Integer.parseInt(newCase);
                                         values[index]+=caseInInnt;
+                                        previousValue=caseInInnt;
+                                    }
+                                    else{
+                                        values[index]+=previousValue;
+                                    }
+                                }
+                            }
+                            else{
+                                if(metric==3)
+                                {
+                                    String newCase=components[6];
+                                    if(!newCase.equals(""))
+                                    {
+                                        int caseInInnt=Integer.parseInt(newCase);
+                                        previousValue=caseInInnt;
                                     }
                                 }
                             }
