@@ -170,17 +170,17 @@ class Data{
     public void askForCalculateType(Scanner sc){
         while(true)
         {
-        System.out.println("Select calculate type: \n1. Total value in a group \n2. up to value date");
-        String type =sc.nextLine();
-        if(type.equals("1")||type.equals("2"))
-        {
-            tgc.CalculateInGroup(Integer.parseInt(type));
-            return;
-        }
-        else{
-            System.out.println("Invalid Input! Retry");
-            System.out.println("--------------------( っ- ‸ – c)--------------------");
-        }
+            System.out.println("Select calculate type: \n1. Total value in a group \n2. up to value date");
+            String type =sc.nextLine();
+            if(type.equals("1")||type.equals("2"))
+            {
+                tgc.CalculateInGroup(Integer.parseInt(type));
+                return;
+            }
+            else{
+                System.out.println("Invalid Input! Retry");
+                System.out.println("--------------------( っ- ‸ – c)--------------------");
+            }
         }
     }
     //ask for dates input
@@ -202,112 +202,112 @@ class Data{
         boolean inputAccepted=false;
         while(!inputAccepted)
         {
-            
+
             System.out.println("--------------------(^◡^ )--------------------");
             System.out.println("Select Input Method: \n 1. A pair of start date and end date \n 2.A number of days or weeks FROM a particular date \n 3.A number of days or weeks TO a particular days \n");
             System.out.print("Enter the number: ");
             String chosen=sc.nextLine();
             if(chosen.equals("1")||chosen.equals("2")||chosen.equals("3"))
             {
-            
-            int chosenTime=Integer.parseInt(chosen);
-            SimpleDateFormat formatter=new SimpleDateFormat("MM/dd/yyyy");
-            if(chosenTime==1)
-            {
-                //input dates
-                System.out.println("Enter the start date(MM/dd/yyyy):");
-                String date1=sc.nextLine();
-                System.out.println("Enter the end date(MM/dd/yyyy):");
-                String date2=sc.nextLine();
-                //converting and create Data
-                try{
-                    Date startDate=formatter.parse(date1);
-                    Date endDate=formatter.parse(date2);
-                    //System.out.println("StartDate is: "+startDate+", endDate is: "+endDate);
-                    System.out.println("--------------------(^◡^ )--------------------");
-                    SetData(areaName, regionType, startDate, endDate);
-                    //Data data=new Data(areaName,regionType,startDate,endDate);
-                    infoacquired=true;
-                    return;
-                    //end loop
-                }
-                catch(ParseException e){
-                    e.printStackTrace();
-                    System.out.println("day inputs in wrong format");
-                }
-                //restart
-            }
-            else if(chosenTime==2||chosenTime==3){
-                //get the rootdate
-                System.out.println("Enter the start date(MM/dd/yyyy):");
-                String date1=sc.nextLine();
-                try{
-                    Date startDate=formatter.parse(date1);
-                    System.out.println("Enter a period(ex 3 days, 9 weeks)");
-                    String period=sc.nextLine();
-                    //separate by space
-                    String[] parts=period.split(" ");
-                    int amount=0;
-                    try{
-                        amount=Integer.parseInt(parts[0]);
-                        //create Data object
-                        //day-days-Day-Days are accepted
-                        System.out.println("--------------------(^◡^ )--------------------");
-                        if(parts[1].equals("days")||parts[1].equals("day")||parts.equals("Days")||parts[1].equals("Day"))
-                        {
-                            //System.out.println( "amount is:"+amount);
-                            if(chosenTime==2)
-                            {
-                                SetData(areaName,regionType,startDate,true,amount);
-                                infoacquired=true;
-                                return;
-                            }
-                            if(chosenTime==3)
-                            {
-                                SetData(areaName,regionType,startDate,false,amount);
-                                infoacquired=true;
-                                return;
-                            }
-                        }
-                        //weeks-week-Weeks-Week are accepted;
-                        else if(parts[1].equals("weeks")||parts[1].equals("week")||parts[1].equals("Week")||parts[1].equals("Weeks"))
-                        {
-                            amount*=7;
-                            //System.out.println( "amount is:"+amount);
-                            if(chosenTime==2)
-                            {
-                                SetData(areaName,regionType,startDate,true,amount);
-                                infoacquired=true;
-                                return;
-                            }
-                            if(chosenTime==3)
-                            {
-                                SetData(areaName,regionType,startDate,false,amount);
-                                infoacquired=true;
-                                return;
-                            }
-                        }
-                        else{
-                            System.out.println(parts[1]+" is not the correct input! pls try again");
 
+                int chosenTime=Integer.parseInt(chosen);
+                SimpleDateFormat formatter=new SimpleDateFormat("MM/dd/yyyy");
+                if(chosenTime==1)
+                {
+                    //input dates
+                    System.out.println("Enter the start date(MM/dd/yyyy):");
+                    String date1=sc.nextLine();
+                    System.out.println("Enter the end date(MM/dd/yyyy):");
+                    String date2=sc.nextLine();
+                    //converting and create Data
+                    try{
+                        Date startDate=formatter.parse(date1);
+                        Date endDate=formatter.parse(date2);
+                        //System.out.println("StartDate is: "+startDate+", endDate is: "+endDate);
+                        System.out.println("--------------------(^◡^ )--------------------");
+                        SetData(areaName, regionType, startDate, endDate);
+                        //Data data=new Data(areaName,regionType,startDate,endDate);
+                        infoacquired=true;
+                        return;
+                        //end loop
+                    }
+                    catch(ParseException e){
+                        e.printStackTrace();
+                        System.out.println("day inputs in wrong format");
+                    }
+                    //restart
+                }
+                else if(chosenTime==2||chosenTime==3){
+                    //get the rootdate
+                    System.out.println("Enter the start date(MM/dd/yyyy):");
+                    String date1=sc.nextLine();
+                    try{
+                        Date startDate=formatter.parse(date1);
+                        System.out.println("Enter a period(ex 3 days, 9 weeks)");
+                        String period=sc.nextLine();
+                        //separate by space
+                        String[] parts=period.split(" ");
+                        int amount=0;
+                        try{
+                            amount=Integer.parseInt(parts[0]);
+                            //create Data object
+                            //day-days-Day-Days are accepted
+                            System.out.println("--------------------(^◡^ )--------------------");
+                            if(parts[1].equals("days")||parts[1].equals("day")||parts.equals("Days")||parts[1].equals("Day"))
+                            {
+                                //System.out.println( "amount is:"+amount);
+                                if(chosenTime==2)
+                                {
+                                    SetData(areaName,regionType,startDate,true,amount);
+                                    infoacquired=true;
+                                    return;
+                                }
+                                if(chosenTime==3)
+                                {
+                                    SetData(areaName,regionType,startDate,false,amount);
+                                    infoacquired=true;
+                                    return;
+                                }
+                            }
+                            //weeks-week-Weeks-Week are accepted;
+                            else if(parts[1].equals("weeks")||parts[1].equals("week")||parts[1].equals("Week")||parts[1].equals("Weeks"))
+                            {
+                                amount*=7;
+                                //System.out.println( "amount is:"+amount);
+                                if(chosenTime==2)
+                                {
+                                    SetData(areaName,regionType,startDate,true,amount);
+                                    infoacquired=true;
+                                    return;
+                                }
+                                if(chosenTime==3)
+                                {
+                                    SetData(areaName,regionType,startDate,false,amount);
+                                    infoacquired=true;
+                                    return;
+                                }
+                            }
+                            else{
+                                System.out.println(parts[1]+" is not the correct input! pls try again");
+
+                            }
+                        }
+                        //error when converting string to date
+                        catch(NumberFormatException e)
+                        {
+                            System.out.println("input may be not correct");
                         }
                     }
                     //error when converting string to date
-                    catch(NumberFormatException e)
-                    {
-                        System.out.println("input may be not correct");
+                    catch(ParseException e){
+                        e.printStackTrace();
+                        System.out.println("day inputs in wrong format");
                     }
                 }
-                //error when converting string to date
-                catch(ParseException e){
-                    e.printStackTrace();
-                    System.out.println("day inputs in wrong format");
-                }
-            }
             }
             else{
-            System.out.println("Invalid Input!!! Try again");
-            System.out.println("--------------------( っ- ‸ – c)--------------------");
+                System.out.println("Invalid Input!!! Try again");
+                System.out.println("--------------------( っ- ‸ – c)--------------------");
             }
         }
         infoacquired=false;
@@ -422,51 +422,51 @@ class Data{
                 //tgc.ShowGroups();
             }
             if(grouping==3){
-            //by days
-            while(true){
-                System.out.printf("Enter the amount of dates in a group:");
-                int dateAmount=sc.nextInt();
-                sc.nextLine();//scanner will start at the new line
-                int total=timeRange.size();
-                if(dateAmount==0)
-                {
-                    System.out.println("SYSTEM FUNCTIONAL, YOUR INPUT TERRIBLE!");
-                    System.out.println("pls try again");
-                    System.out.println("Enter a number that is not 0");
-                    System.out.println("--------------------(^◡^ )--------------------");
-                    //restart
-                }
-                else if(total%dateAmount!=0){
-
-                    System.out.println("SYSTEM FUNCTIONAL, YOUR INPUT TERRIBLE!");
-                    System.out.println("pls try again");
-                    System.out.println("pls Enter a number that is divisible by "+total);
-                    System.out.println("--------------------(^◡^ )--------------------");
-                }
-                else{
-                    int lastadded=0;
-                    int lastaddedDate=0;
-                    int result=total/dateAmount;
-                    tgc.SetGroupAmount(result);
-                    //result is the amount of group
-                    //date AMount is equally the amount of date each group
-                    for(int i=0;i<result;i++){
-                        TimeGroup timeGroup=new TimeGroup(dateAmount,metricType);
-                        for(int j=0;j<dateAmount;j++){
-                            timeGroup.addDate(timeRange.get(lastaddedDate),values[lastaddedDate]);
-                            //System.out.println("last added Date: "+lastaddedDate+" "+timeRange.get(lastaddedDate));
-                            lastaddedDate++;
-                        }
-                        tgc.AddGroupAtIndex(lastadded, timeGroup);
-                        //groups[lastadded]=timeGroup;
-                        lastadded++;
+                //by days
+                while(true){
+                    System.out.printf("Enter the amount of dates in a group:");
+                    int dateAmount=sc.nextInt();
+                    sc.nextLine();//scanner will start at the new line
+                    int total=timeRange.size();
+                    if(dateAmount==0)
+                    {
+                        System.out.println("SYSTEM FUNCTIONAL, YOUR INPUT TERRIBLE!");
+                        System.out.println("pls try again");
+                        System.out.println("Enter a number that is not 0");
+                        System.out.println("--------------------(^◡^ )--------------------");
+                        //restart
                     }
-                    grouped=true;
-                    return;
-                }
+                    else if(total%dateAmount!=0){
 
+                        System.out.println("SYSTEM FUNCTIONAL, YOUR INPUT TERRIBLE!");
+                        System.out.println("pls try again");
+                        System.out.println("pls Enter a number that is divisible by "+total);
+                        System.out.println("--------------------(^◡^ )--------------------");
+                    }
+                    else{
+                        int lastadded=0;
+                        int lastaddedDate=0;
+                        int result=total/dateAmount;
+                        tgc.SetGroupAmount(result);
+                        //result is the amount of group
+                        //date AMount is equally the amount of date each group
+                        for(int i=0;i<result;i++){
+                            TimeGroup timeGroup=new TimeGroup(dateAmount,metricType);
+                            for(int j=0;j<dateAmount;j++){
+                                timeGroup.addDate(timeRange.get(lastaddedDate),values[lastaddedDate]);
+                                //System.out.println("last added Date: "+lastaddedDate+" "+timeRange.get(lastaddedDate));
+                                lastaddedDate++;
+                            }
+                            tgc.AddGroupAtIndex(lastadded, timeGroup);
+                            //groups[lastadded]=timeGroup;
+                            lastadded++;
+                        }
+                        grouped=true;
+                        return;
+                    }
+
+                }
             }
-        }
         }
         System.out.println("--------------------(^◡^ )--------------------");
     }
@@ -502,7 +502,7 @@ class Data{
         tgc.SetMetricType(metric);
         //contain the values of of all day within the given timerange
         int[] values=new int[timeRange.size()];
-        Scanner input =new Scanner(new File("covid-data.csv"));
+        Scanner input =new Scanner(new File("C:/Users/Admin/IdeaProjects/week1/src/Programming1_Asignment-main/covid-data.csv"));
         // /sc.useDelimiter(",");
         boolean firstLine=true;//ignore the title line
         boolean nameCheck=false;//check if there is geometric match any in CSV file
@@ -609,7 +609,7 @@ class Data{
                                         if(dateBefore.equals(testDate))
                                         {
                                             tgc.AddExtraValue((caseInInnt));
-                                            //signal timegroup controller is 
+                                            //signal timegroup controller is
                                         }
                                         previousValue=caseInInnt;
                                     }
@@ -689,7 +689,7 @@ class Data{
                                         int caseInInnt=Integer.parseInt(newCase);
                                         if(dateBefore.equals(testDate))
                                         {
-                                            //signal timegroup controller is 
+                                            //signal timegroup controller is
                                             tgc.AddExtraValue(caseInInnt);
                                         }
                                         previousValue=caseInInnt;
@@ -907,11 +907,12 @@ class TimeGroupController{
             //show total or metric
             if(calculationType==1)
             {
-                System.err.println("Total Value:"+groupsValue[i]);
+                System.out.println("Total Value:"+groupsValue[i]);
+                System.out.println("--------------------(^◡^ )--------------------");
             }
             if(calculationType==2)
             {
-                System.err.println("Up to:"+groupsValue[i]);
+                System.out.println("Up to:"+groupsValue[i]);
                 System.out.println("--------------------(^◡^ )--------------------");
             }
         }
@@ -974,11 +975,11 @@ class TimeGroup{
         {
             System.out.println("Metric - New Cases");
         }
-        else if(metricType==1)
+        else if(metricType==2)
         {
             System.out.println("Metric - New Death");
         }
-        else if(metricType==1)
+        else if(metricType==3)
         {
             System.out.println("Metric - People vaccinated");
         }
