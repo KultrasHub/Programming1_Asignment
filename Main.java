@@ -613,6 +613,13 @@ class Data{
                                         }
                                         previousValue=caseInInnt;
                                     }
+                                    else{
+                                        if(dateBefore.equals(testDate))
+                                        {
+                                            tgc.AddExtraValue((previousValue));
+                                            //signal timegroup controller is
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -693,6 +700,13 @@ class Data{
                                             tgc.AddExtraValue(caseInInnt);
                                         }
                                         previousValue=caseInInnt;
+                                    }
+                                    else{
+                                        if(dateBefore.equals(testDate))
+                                        {
+                                            //signal timegroup controller is
+                                            tgc.AddExtraValue(previousValue);
+                                        }
                                     }
                                 }
                             }
@@ -864,6 +878,7 @@ class TimeGroupController{
         groupsValue=new int[groups.length];
         //store the largest of the previous
         int previous=dateBeforeValue;
+        System.out.println(dateBeforeValue);
         //start getting value
         for(int i=0;i<groups.length;i++)
         {
