@@ -945,17 +945,30 @@ class TimeGroupController{
     }
 
     public void displayChart() {
+        String title = "Summary Data ";
+        int titleLength = title.length() + 1;
         int rows = 24;
         int columns = 80;
         ArrayList<Integer> timeGroups = new ArrayList<>();
         ArrayList<Integer> summaryData = new ArrayList<>();
-        String[][] chart = new String[rows][columns];
+        String[][] chart = new String[rows][columns + titleLength];
 
-        //distance between each column
+        //initialize an empty chart
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns + titleLength; j++) {
+                chart[i][j] = " ";
+            }
+        }
+
+        //to find the distance between each column
         int columnDistance = (columns - 1) / (groups.length + 1);
+        System.out.println(groups.length);
+        System.out.println(titleLength);
+        System.out.println("col dist "+ columnDistance);
         int columnValue;
         for (int i = 1; i <= groups.length; i++) {
             columnValue = columnDistance * i;
+            System.out.println(columnValue);
             timeGroups.add(columnValue);
         }
 
@@ -988,32 +1001,37 @@ class TimeGroupController{
             }
         }
 
+        //each summary data point is represented
         for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                chart[i][j] = " ";
+            for (int j = titleLength - 1; j < columns + titleLength; j++) {
                 if (i != rows - 1) {
                     for (int k = 0; k < timeGroups.size(); k++) {
-                        chart[summaryData.get(k)][timeGroups.get(k)] = "*";
+                        chart[summaryData.get(k)][timeGroups.get(k) + titleLength] = "*" + groupsValue[k];
                     }
                 }
                 else {
-                    chart[rows - 1][0] = "|";
+                    chart[rows - 1][titleLength - 1] = "|";
                     break;
                 }
-                chart[i][0] = "|";
+                chart[i][titleLength - 1] = "|";
+                if (i == 12) {
+                    chart[i][titleLength - 1] = " ";
+                }
                 chart[rows - 1][j] = "_";
             }
         }
 
+        //to add title to y-axis
+        chart[rows / 2][0] = title + "|";
+
+        //to display chart
         for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
+            for (int j = 0; j < columns + titleLength; j++) {
                 System.out.print(chart[i][j]);
             }
             System.out.println();
         }
+        System.out.printf("%60s", "Groups");
+
     }
 }
-
-
-
-
