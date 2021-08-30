@@ -144,6 +144,7 @@ class Data {
             System.out.println("Select a region type: \n 1. Continent \n 2. Country");
             System.out.print("Enter a number: ");
             String selectedType = sc.nextLine();
+
             if (selectedType.equals("1") || selectedType.equals("2")) {
                 int type = Integer.parseInt(selectedType);
                 if (type == 1 || type == 2) {
@@ -192,6 +193,7 @@ class Data {
         }
         System.out.print("Enter the region name: ");
         String areaName = sc.nextLine();
+        System.out.println("=".repeat(100));
 
         //time range
         boolean inputAccepted = false;
@@ -898,7 +900,7 @@ class TimeGroupController{
         }
     }
 
-    //TO SHOW ALL DAYS IN EACH GROUP
+    //To show all days in each group
     public void ShowGroups() {
         for (TimeGroup g : groups) {
             if (g != null) {
@@ -907,7 +909,7 @@ class TimeGroupController{
         }
     }
 
-    //SHOW VALUE
+    //DISPLAY
     public void displayTable() {
         System.out.println();
         System.out.println("_".repeat(55));
@@ -962,9 +964,6 @@ class TimeGroupController{
 
         //to find the distance between each column
         int columnDistance = (columns - 1) / (groups.length + 1);
-        System.out.println(groups.length);
-        System.out.println(titleLength);
-        System.out.println("col dist "+ columnDistance);
         int columnValue;
         for (int i = 1; i <= groups.length; i++) {
             columnValue = columnDistance * i;
@@ -1032,6 +1031,9 @@ class TimeGroupController{
             System.out.println();
         }
         System.out.printf("%60s", "Groups");
-
     }
 }
+
+
+
+
