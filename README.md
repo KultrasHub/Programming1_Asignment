@@ -2,7 +2,7 @@
 
 TEAM CONTRIBUTION
 Tran Nguyen Anh Khoa(s3863956):0
--
+Tran Duy Phong(s3879069):0
 -
 GIT HUB REPO
 https://github.com/KultrasHub/Programming1_Asignment.git
