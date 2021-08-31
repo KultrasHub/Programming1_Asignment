@@ -140,6 +140,7 @@ public class Display {
             System.out.println();
         }
         System.out.printf("%60s", "Groups");
+        System.out.println();
         Conclusion.conclude();
     }
 
