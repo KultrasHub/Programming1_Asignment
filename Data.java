@@ -1,5 +1,3 @@
-package com.company;
-
 import java.util.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -61,8 +59,7 @@ public class Data {
                 Date date = new Date(runInMillisecond);
                 time_range.add(date);
             }
-        }
-        else {
+        } else {
             smallestDateInMillisecond = endDayInMillisecond;
             largestDateInMillisecond = startDayInMillisecond;
             long runInMillisecond = endDayInMillisecond;
@@ -89,8 +86,7 @@ public class Data {
         // to check region type and skip the function if region_type is missing
         if (regionType == 1) {
             region_type = RegionType.continent;
-        }
-        else if (regionType == 2) {
+        } else if (regionType == 2) {
             region_type = RegionType.country;
         }
 
@@ -504,7 +500,29 @@ public class Data {
                                     }
                                 }
                             } else {
-                                // this allows value to be kept
+                                // this allows value in unselected to be kept
+                                if (metric == 1) {
+                                    String newCase = components[4];
+                                    if (!newCase.equals("")) {
+                                        int caseInInt = Integer.parseInt(newCase);
+                                        previousValue += caseInInt;
+                                        if (dateBefore.equals(testDate)) {
+                                            tgc.AddExtraValue((caseInInt));
+                                            // signal time group controller is
+                                        }
+                                        // values[index] += caseInInt;
+                                    }
+                                } else if (metric == 2) {
+                                    String newCase = components[5];
+                                    if (!newCase.equals("")) {
+                                        int caseInInt = Integer.parseInt(newCase);
+                                        previousValue += caseInInt;
+                                        if (dateBefore.equals(testDate)) {
+                                            tgc.AddExtraValue((caseInInt));
+                                            // signal time group controller is
+                                        }
+                                    }
+                                }
                                 if (metric == 3) {
                                     // to check if date is the date before time range
                                     // to store this value to calculate total in the time group controller
@@ -570,6 +588,28 @@ public class Data {
                                     }
                                 }
                             } else {
+                                if (metric == 1) {
+                                    String newCase = components[4];
+                                    if (!newCase.equals("")) {
+                                        int caseInInt = Integer.parseInt(newCase);
+                                        previousValue += caseInInt;
+                                        if (dateBefore.equals(testDate)) {
+                                            tgc.AddExtraValue((caseInInt));
+                                            // signal time group controller is
+                                        }
+                                        // values[index] += caseInInt;
+                                    }
+                                } else if (metric == 2) {
+                                    String newCase = components[5];
+                                    if (!newCase.equals("")) {
+                                        int caseInInt = Integer.parseInt(newCase);
+                                        previousValue += caseInInt;
+                                        if (dateBefore.equals(testDate)) {
+                                            tgc.AddExtraValue((caseInInt));
+                                            // signal time group controller is
+                                        }
+                                    }
+                                }
                                 if (metric == 3) {
                                     String newCase = components[6];
                                     if (!newCase.equals("")) {

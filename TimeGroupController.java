@@ -31,8 +31,7 @@ public class TimeGroupController {
         // to check calculationType
         if (calculationType != 1 && calculationType != 2) {
             System.out.println("This calculation type input is invalid. Please try again!");
-        }
-        else {
+        } else {
             // to save calculation type
             this.calculationType = calculationType;
         }
@@ -61,20 +60,19 @@ public class TimeGroupController {
                     previous = temp;
                     // store value to save into group value
                     groupsValue[i] = valueToSave;
-                }
-                else {
+                } else {
                     // up to is simple, it is the largest value into group
                     groupsValue[i] = temp;
                 }
-            }
-            else {
+            } else {
                 if (calculationType == 1) {
                     groupsValue[i] = temp;
-                }
-                else {
+                } else {
                     // up to is equal to the total value of the current + total value of the
                     // previous
                     previous += temp;
+                    // add pre date data
+                    previous += dateBeforeValue;
                     groupsValue[i] = previous;
                 }
             }
