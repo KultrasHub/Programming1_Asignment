@@ -73,9 +73,6 @@ public class TimeGroupController {
                     // previous
                     previous += temp;
                     // add pre date data
-                    System.out.println(("ingroup:" + temp));
-                    ;
-                    previous += dateBeforeValue;
                     groupsValue[i] = previous;
                 }
             }
