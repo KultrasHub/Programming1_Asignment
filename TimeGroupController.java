@@ -24,6 +24,7 @@ public class TimeGroupController {
     // for the first group
     public void AddExtraValue(int amount) {
         dateBeforeValue += amount;
+        System.out.println(("value is:" + dateBeforeValue));
     }
 
     // loop through groups and extract the total value within the group
@@ -72,6 +73,8 @@ public class TimeGroupController {
                     // previous
                     previous += temp;
                     // add pre date data
+                    System.out.println(("ingroup:" + temp));
+                    ;
                     previous += dateBeforeValue;
                     groupsValue[i] = previous;
                 }
