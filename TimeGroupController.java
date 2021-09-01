@@ -1,4 +1,3 @@
-
 //to contain all an array of time group
 //a singleton to help adding or displaying time group faster
 public class TimeGroupController {
@@ -21,16 +20,6 @@ public class TimeGroupController {
         groups[index] = g;
     }
 
-    // to show metric value with days in each groups
-    public void ShowTimeMetricGroup() {
-        System.out.println("There are " + groups.length + " groups");
-        for (TimeGroup g : groups) {
-            if (g != null) {
-                g.DisplayMetric();
-            }
-        }
-    }
-
     // when calculating vaccinated, it requires extra value to compute total value
     // for the first group
     public void AddExtraValue(int amount) {
@@ -42,7 +31,8 @@ public class TimeGroupController {
         // to check calculationType
         if (calculationType != 1 && calculationType != 2) {
             System.out.println("This calculation type input is invalid. Please try again!");
-        } else {
+        }
+        else {
             // to save calculation type
             this.calculationType = calculationType;
         }
@@ -71,28 +61,22 @@ public class TimeGroupController {
                     previous = temp;
                     // store value to save into group value
                     groupsValue[i] = valueToSave;
-                } else {
+                }
+                else {
                     // up to is simple, it is the largest value into group
                     groupsValue[i] = temp;
                 }
-            } else {
+            }
+            else {
                 if (calculationType == 1) {
                     groupsValue[i] = temp;
-                } else {
+                }
+                else {
                     // up to is equal to the total value of the current + total value of the
                     // previous
                     previous += temp;
                     groupsValue[i] = previous;
                 }
-            }
-        }
-    }
-
-    // To show all days in each group
-    public void ShowGroups() {
-        for (TimeGroup g : groups) {
-            if (g != null) {
-                g.DisplayDates();
             }
         }
     }
@@ -116,17 +100,17 @@ public class TimeGroupController {
     // get the date summary of this controller
     // return the first day of the first group and the last day of the last group
     public String toString() {
-        return " BETWEEN " + groups[0].getDate(true) + " AND " + groups[groups.length - 1].getDate(false);
+        return "BETWEEN " + groups[0].getDate(true) + " AND " + groups[groups.length - 1].getDate(false);
     }
 
     // get metric Type
     public String GetMetricType() {
         if (metricType == 1) {
-            return " NEW CASES ";
+            return "NEW CASES ";
         } else if (metricType == 2) {
-            return " NEW DEATHS ";
+            return "DEATHS ";
         } else if (metricType == 3) {
-            return " PEOPLE VACCINATED ";
+            return "PEOPLE VACCINATED ";
         }
         return "";
     }
