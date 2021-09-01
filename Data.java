@@ -400,7 +400,9 @@ public class Data {
     public void askForMetric(Scanner sc) throws Exception {
         // check for precondition to run this function
         if (!info_acquired) {
-            System.out.println("Please run the Ask for Detail first to continue!");
+            System.out.println("Missing Ask for Detail!");
+            System.out.println("Executing Ask for Detail");
+            askForDetail(sc);
             System.out.println("=".repeat(100));
             return;
         }
@@ -657,6 +659,11 @@ public class Data {
 
     // ask for display
     public void askForDisplay(Scanner sc) {
+        if (!grouped) {
+            System.out.println("Run grouping first");
+            System.out.println("=".repeat(100));
+            return;
+        }
         System.out.println("=".repeat(100));
         // ask for display type
         boolean inputAccepted = false;
