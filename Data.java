@@ -1,3 +1,5 @@
+package com.company;
+
 import java.util.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -59,7 +61,8 @@ public class Data {
                 Date date = new Date(runInMillisecond);
                 time_range.add(date);
             }
-        } else {
+        }
+        else {
             smallestDateInMillisecond = endDayInMillisecond;
             largestDateInMillisecond = startDayInMillisecond;
             long runInMillisecond = endDayInMillisecond;
@@ -86,7 +89,8 @@ public class Data {
         // to check region type and skip the function if region_type is missing
         if (regionType == 1) {
             region_type = RegionType.continent;
-        } else if (regionType == 2) {
+        }
+        else if (regionType == 2) {
             region_type = RegionType.country;
         }
 
@@ -336,8 +340,6 @@ public class Data {
                     TimeGroup timeGroup = new TimeGroup(result, metricType, grouping);
                     for (int j = 0; j < result; j++) {
                         timeGroup.addDate(time_range.get(lastAddedDate), values[lastAddedDate]);
-                        // System.out.println("last added Date: "+ lastAddedDate + " " +
-                        // time_range.get(lastAddedDate));
                         lastAddedDate++;
                     }
                     tgc.AddGroupAtIndex(lastAdded, timeGroup);
@@ -349,8 +351,6 @@ public class Data {
                     TimeGroup timeGroup = new TimeGroup(result + 1, metricType, grouping);
                     for (int j = 0; j < result + 1; j++) {
                         timeGroup.addDate(time_range.get(lastAddedDate), values[lastAddedDate]);
-                        // System.out.println("last added Date: " + lastAddedDate + " " +
-                        // time_range.get(lastAddedDate));
                         lastAddedDate++;
                     }
                     tgc.AddGroupAtIndex(lastAdded, timeGroup);
@@ -383,8 +383,6 @@ public class Data {
                             TimeGroup timeGroup = new TimeGroup(dayAmount, metricType, grouping);
                             for (int j = 0; j < dayAmount; j++) {
                                 timeGroup.addDate(time_range.get(lastAddedDate), values[lastAddedDate]);
-                                // System.out.println("last added Date: " + lastAddedDate + " " +
-                                // time_range.get(lastAddedDate));
                                 lastAddedDate++;
                             }
                             tgc.AddGroupAtIndex(lastAdded, timeGroup);
@@ -410,7 +408,7 @@ public class Data {
             System.out.println("=".repeat(100));
             return;
         }
-        // ask for metric annd a loop if input is invalid
+        // to ask for metric and loop if input is invalid
         boolean inputAccepted = false;
         int metric = 0;
         while (!inputAccepted) {
@@ -641,54 +639,8 @@ public class Data {
         displayTable_Chart(displayValue - 1);
     }
 
-    // DISPLAY SECTION-----------------------------------
-    // this function is used for checking while development
-    // show metric value with days
-    // used to test value
-    private void DisplayMetric(int[] values, int metric) {
-        String metricName = "";
-        if (metric == 1) {
-            metricName = "New Cases";
-        }
-        if (metric == 2) {
-            metricName = "New Death";
-        }
-        if (metric == 3) {
-            metricName = "People vaccinated";
-        }
-        System.out.println("Dates and Metric- " + metricName);
-        for (int i = 0; i < time_range.size(); i++) {
-            System.out.println(time_range.get(i) + " - " + values[i]);
-        }
-        System.out.println("=".repeat(100));
-    }
-
-    // to display all days in time range
-    public void showDays() {
-        for (Date d : time_range) {
-            System.out.println(d);
-        }
-        System.out.println("=".repeat(100));
-    }
-
-    // to display time groups
-    public void showTimeGroup() {
-        if (!grouped) {
-            System.out.println("Groups have not been created. Please run grouping method!");
-        }
-        tgc.ShowGroups();
-    }
-
-    // to display time and metric in group
-    public void showTimeMetricGroup() {
-        if (!grouped) {
-            System.out.println("Groups have not been created. Please run grouping method!");
-        }
-        tgc.ShowTimeMetricGroup();
-    }
-
     // to display days, metric and calculation value in the group
-    // input will determin which to display
+    // input will determine which to display
     // 0-table only,
     // 1- chart only
     // 2-both
