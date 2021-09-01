@@ -31,18 +31,19 @@ public class TimeGroup {
     }
 
     // to add new date into array
-    // add value to equipvalent dates
+    // to add value to equivalent dates
     public void addDate(Date date, int value) {
         if (lastAdded < dates.length) {
             dates[lastAdded] = date;
             metricValue[lastAdded] = value;
             lastAdded++;
-        } else {
+        }
+        else {
             System.out.println("Time group is at maximum - System error!");
         }
     }
 
-    // To display dates in each group
+    // to display dates in each group
     // single date in no grouping
     // start and end date in other method
     public void DisplayDates() {
@@ -60,24 +61,25 @@ public class TimeGroup {
 
     // get dates in string of this group
     // used to display table name
-    // get Min determine this function to return the smallest day or the largest day
+    // getMin determines if this function returns the smallest day or the largest day
     public String getDate(boolean getMin) {
         if (groupType == 1) {
             return DateToString(dates[0]);
         }
         if (groupType == 2 || groupType == 3) {
             if (getMin) {
-                // get the smallest day
+                // to get the smallest day
                 return DateToString(dates[0]);
-            } else {
-                // get the largest day
+            }
+            else {
+                // to get the largest day
                 return DateToString(dates[dates.length - 1]);
             }
         }
         return "";
     }
 
-    // convert days to string but remove the time field
+    // to convert days to string but remove the time field
     private String DateToString(Date input) {
         SimpleDateFormat outputFormatter = new SimpleDateFormat("MM/dd/yyyy");
         return outputFormatter.format(input);
@@ -87,9 +89,11 @@ public class TimeGroup {
     public void DisplayMetric() {
         if (metricType == 1) {
             System.out.println("Metric - New Cases");
-        } else if (metricType == 2) {
+        }
+        else if (metricType == 2) {
             System.out.println("Metric - New Death");
-        } else if (metricType == 3) {
+        }
+        else if (metricType == 3) {
             System.out.println("Metric - People vaccinated");
         }
         for (int i = 0; i < dates.length; i++) {
@@ -112,9 +116,9 @@ public class TimeGroup {
                     }
                 }
             }
-            // System.out.println("smallest:"+smallest+"largest:"+largest);
-            // add the last value
-        } else {
+            // to add the last value
+        }
+        else {
             for (int j : metricValue) {
                 largest += j;
             }
