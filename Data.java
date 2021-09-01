@@ -596,7 +596,7 @@ public class Data {
                                         int caseInInt = Integer.parseInt(newCase);
                                         previousValue += caseInInt;
                                         if (dateBefore.equals(testDate)) {
-                                            tgc.AddExtraValue((caseInInt));
+                                            tgc.AddExtraValue((previousValue));
                                             // signal time group controller is
                                         }
                                         // values[index] += caseInInt;
@@ -607,7 +607,7 @@ public class Data {
                                         int caseInInt = Integer.parseInt(newCase);
                                         previousValue += caseInInt;
                                         if (dateBefore.equals(testDate)) {
-                                            tgc.AddExtraValue((caseInInt));
+                                            tgc.AddExtraValue((previousValue));
                                             // signal time group controller is
                                         }
                                     }
