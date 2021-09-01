@@ -1,13 +1,14 @@
+package com.company;
+
 import java.util.*;
 
 public class Display {
 
-    // display table name
-    // DISPLAY
+    // to display table
     public static void displayTable(TimeGroup[] groups, int[] groupsValue, int calculationType, String regionName,
             String metric, String period) {
         System.out.println("=".repeat(100));
-        System.out.printf("%20s", "NUMBER OF " + metric + period + " IN " + regionName);
+        System.out.printf("%20s", "NUMBER OF" + metric + period + " IN " + regionName);
         System.out.println();
         System.out.println();
         System.out.println("_".repeat(55));
@@ -143,5 +144,4 @@ public class Display {
         System.out.println();
         Conclusion.conclude();
     }
-
 }
