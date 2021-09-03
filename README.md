@@ -1,11 +1,13 @@
 # Programming1_Asignment
 
-TEAM CONTRIBUTION
-Tran Nguyen Anh Khoa(s3863956):no increase/decrease
-Tran Duy Phong(s3879069):no increase/decrease
-Hua Minh Thu (s3878667):no increase/decrease
+TEAM CONTRIBUTION: All contributions are the same
+Tran Nguyen Anh Khoa(s3863956)
+Tran Duy Phong(s3879069)
+Hua Minh Thu (s3878667)
+
 GIT HUB REPO
 https://github.com/KultrasHub/Programming1_Asignment.git
+
 YOUTUBE LINK
 https://youtu.be/Bzc2hrtEt4s
 
