@@ -1,6 +1,7 @@
 import java.util.*;
 import java.text.SimpleDateFormat;
 
+// this class is used for data summary
 public class TimeGroup {
     private final Date[] dates;
     private final int[] metricValue;
