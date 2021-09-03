@@ -4,18 +4,19 @@ public class Display {
 
     // to display table
     public static void displayTable(TimeGroup[] groups, int[] groupsValue, int calculationType, String regionName,
-            String metric, String period) {
+                                    String metric, String period) {
+        // to display title
         System.out.println("=".repeat(100));
-        System.out.printf("%20s", "NUMBER OF" + metric + period + " IN " + regionName);
-        System.out.println();
-        System.out.println();
+        System.out.printf("%20s", "NUMBER OF " + metric + period + " IN " + regionName.toUpperCase());
+        System.out.print("\n\n");
         System.out.println("_".repeat(55));
         System.out.printf("%10s %38s", "Range", "Value");
         System.out.println();
         System.out.println("_".repeat(55));
 
-        // row
+        // to display value of each row
         for (int row = 0; row < groups.length; row++) {
+            //no grouping
             if (groups[row].getGroupType() == 1) {
                 // first column
                 groups[row].DisplayDates();
@@ -36,11 +37,11 @@ public class Display {
                 // to show total or metric
                 // second column
                 if (calculationType == 1) {
-                    System.out.printf("%20s", "New total: " + groupsValue[row]);
+                    System.out.printf("%30s", "New total: " + groupsValue[row]);
                     System.out.println();
                 }
                 if (calculationType == 2) {
-                    System.out.printf("%20s", "Up to: " + groupsValue[row]);
+                    System.out.printf("%30s", "Up to: " + groupsValue[row]);
                     System.out.println();
                 }
             }
@@ -50,20 +51,20 @@ public class Display {
     }
 
     public static void displayChart(TimeGroup[] groups, int[] groupsValue, String metric, String period,
-            String regionName) {
+                                    String regionName) {
+        // to display title
         System.out.println("=".repeat(100));
-        System.out.printf("%20s", "NUMBER OF " + metric + period + " IN " + regionName);
-        System.out.println();
-        System.out.println();
-        String label = "Summary Data ";
-        int labelLength = label.length() + 1;
+        System.out.printf("%20s", "NUMBER OF " + metric + period + " IN " + regionName.toUpperCase());
+        System.out.print("\n\n");
+        String label = "Summary Data";
+        int labelLength = label.length() + 2;
         int rows = 24;
         int columns = 80;
+        String[][] chart = new String[rows][columns + labelLength];
         ArrayList<Integer> timeGroups = new ArrayList<>();
         ArrayList<Integer> summaryData = new ArrayList<>();
-        String[][] chart = new String[rows][columns + labelLength];
 
-        // initialize an empty chart
+        // to initialize an empty chart
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns + labelLength; j++) {
                 chart[i][j] = " ";
@@ -94,7 +95,7 @@ public class Display {
             }
         }
 
-        // distance between each row
+        // to find the distance between each row
         int rowDistance = (max - min) / 22;
         for (int v : groupsValue) {
             double maxNewTotal = max;
@@ -108,10 +109,10 @@ public class Display {
         }
 
         // each summary data point is represented
-        // add data to chart
+        // to add data to chart
         for (int i = 0; i < rows; i++) {
-            for (int j = labelLength - 1; j < columns + labelLength; j++) {
-                if (i != rows - 1) {// avoid the last row
+            for (int j = labelLength - 1; j < columns + labelLength ; j++) {
+                if (i != rows - 1) {// to avoid the last row
                     for (int k = 0; k < timeGroups.size(); k++) {
                         chart[summaryData.get(k)][timeGroups.get(k) + labelLength] = "*" + groupsValue[k];
                     }
@@ -120,7 +121,7 @@ public class Display {
                     break;
                 }
                 chart[i][labelLength - 1] = "|";// last column
-                if (i == 12) {
+                if (i == rows / 2) {
                     chart[i][labelLength - 1] = " ";
                 }
                 chart[rows - 1][j] = "_";// last row
@@ -128,8 +129,9 @@ public class Display {
         }
         // add [-] under each column that contain value
 
-        // to add title to y-axis
-        chart[rows / 2][0] = label + "|";
+        // to add label to y-axis
+        chart[rows / 2][0] = label;
+        chart[rows / 2][2] = "|";
 
         // to display chart
         for (int i = 0; i < rows; i++) {
@@ -138,6 +140,7 @@ public class Display {
             }
             System.out.println();
         }
+        // to add label to x-axis
         System.out.printf("%60s", "Groups");
         System.out.println();
         Conclusion.conclude();
