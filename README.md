@@ -7,6 +7,7 @@ Hua Minh Thu (s3878667):no increase/decrease
 GIT HUB REPO
 https://github.com/KultrasHub/Programming1_Asignment.git
 YOUTUBE LINK
+https://youtu.be/Bzc2hrtEt4s
 
 FEATURE DISCLAIMER:
 4/22: 200
