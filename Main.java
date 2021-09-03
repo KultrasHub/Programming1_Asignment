@@ -14,5 +14,7 @@ public class Main {
         data.askForCalculateType(scanner);
         // display
         data.askForDisplay(scanner);
+        // to close scanner
+        scanner.close();
     }
 }
